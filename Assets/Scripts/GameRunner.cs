@@ -35,7 +35,7 @@ public class GameRunner : MonoBehaviour
         {
             Vector2 randomXY = Random.insideUnitCircle;
             newWindDirection = new Vector3(randomXY.x, 0f, randomXY.y);
-            newWindDirection *= Random.Range(3f, 15f);
+            newWindDirection *= Random.Range(300f, 1500f);
             Debug.Log($"Set new Wind direction to {newWindDirection}");
         }
     }

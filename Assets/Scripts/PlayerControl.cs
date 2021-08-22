@@ -1,18 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerControl : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private float steerAmount;
 
-    // Update is called once per frame
-    void Update()
+    public float SteerAmount => steerAmount;
+
+    public void OnSteer(InputAction.CallbackContext context)
     {
-        
+        steerAmount = context.ReadValue<float>();
     }
 }
