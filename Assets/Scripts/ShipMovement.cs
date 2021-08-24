@@ -23,8 +23,8 @@ public class ShipMovement : MonoBehaviour
         
         rotateValue = control == null ? 0f : control.SteerAmount;
         transform.Rotate(_transform.up, rotateSpeed * rotateValue * Time.fixedDeltaTime);
-        var dot = Vector3.Dot(gameRunner.WindDirection, _transform.forward);
-        var speed = Mathf.Clamp01((dot + minDot) / 1f + minDot);
+        var dot = Vector3.Dot(gameRunner.WindDirection.normalized, _transform.forward);
+        var speed = Mathf.Clamp01((dot + minDot) / (1f + minDot));
         _rigidbody.velocity = _transform.forward * (gameRunner.WindDirection.magnitude * speed);
     }
 

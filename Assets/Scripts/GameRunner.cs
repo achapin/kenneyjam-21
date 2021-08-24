@@ -6,6 +6,8 @@ public class GameRunner : MonoBehaviour
     public Vector3 WindDirection => windDirection;
     private float timeUntilWindShifts;
     private Vector3 newWindDirection;
+    [SerializeField] private Vector2 windShiftMinMax;
+    [SerializeField] private Vector2 windSpeedMinMax;
 
     // Start is called before the first frame update
     void Start()
@@ -18,11 +20,16 @@ public class GameRunner : MonoBehaviour
     {
         if (newWindDirection != Vector3.zero)
         {
-            windDirection = Vector3.Slerp(windDirection, newWindDirection, .1f);
-            if (Vector3.Dot(windDirection, newWindDirection) > .99f)
+
+            windDirection = Vector3.RotateTowards(windDirection,
+                newWindDirection,
+                Mathf.PI * Time.deltaTime,
+                newWindDirection.magnitude * Time.deltaTime);
+            if (Vector3.Dot(windDirection.normalized, newWindDirection.normalized) > .99f)
             {
+                windDirection = newWindDirection;
                 newWindDirection = Vector3.zero;
-                timeUntilWindShifts = Random.Range(2f, 10f);
+                timeUntilWindShifts = Random.Range(windShiftMinMax.x, windShiftMinMax.y);
             }
         }
 
@@ -35,7 +42,7 @@ public class GameRunner : MonoBehaviour
         {
             Vector2 randomXY = Random.insideUnitCircle;
             newWindDirection = new Vector3(randomXY.x, 0f, randomXY.y);
-            newWindDirection *= Random.Range(300f, 1500f);
+            newWindDirection *= Random.Range(windSpeedMinMax.x, windSpeedMinMax.y);
             Debug.Log($"Set new Wind direction to {newWindDirection}");
         }
     }
